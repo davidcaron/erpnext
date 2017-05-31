@@ -3,7 +3,7 @@
  "allow_guest_to_view": 0, 
  "allow_import": 1, 
  "allow_rename": 1, 
- "autoname": "field:project_name", 
+ "autoname": "P2017-.###", 
  "beta": 0, 
  "creation": "2013-03-07 11:55:07", 
  "custom": 0, 
@@ -27,7 +27,7 @@
    "ignore_xss_filter": 0, 
    "in_filter": 0, 
    "in_global_search": 0, 
-   "in_list_view": 0, 
+   "in_list_view": 1, 
    "in_standard_filter": 0, 
    "label": "Project Name", 
    "length": 0, 
@@ -858,7 +858,7 @@
    "ignore_xss_filter": 0, 
    "in_filter": 0, 
    "in_global_search": 0, 
-   "in_list_view": 1, 
+   "in_list_view": 0, 
    "in_standard_filter": 0, 
    "label": "Estimated Cost", 
    "length": 0, 
@@ -1255,7 +1255,11 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 4, 
+<<<<<<< 39ec7dc6580d01de4031a62332de47e4fa98f82a
  "modified": "2017-07-26 14:36:20.857673", 
+=======
+ "modified": "2017-05-30 22:19:31.302530", 
+>>>>>>> changed project naming
  "modified_by": "Administrator", 
  "module": "Projects", 
  "name": "Project", 
