@@ -1254,12 +1254,7 @@
  "is_submittable": 0, 
  "issingle": 0, 
  "istable": 0, 
- "max_attachments": 4, 
-<<<<<<< 39ec7dc6580d01de4031a62332de47e4fa98f82a
- "modified": "2017-07-26 14:36:20.857673", 
-=======
- "modified": "2017-05-30 22:19:31.302530", 
->>>>>>> changed project naming
+ "max_attachments": 4,
  "modified_by": "Administrator", 
  "module": "Projects", 
  "name": "Project", 
