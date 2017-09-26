@@ -16,6 +16,8 @@ from erpnext.controllers.stock_controller import StockController
 class BuyingController(StockController):
 	def __setup__(self):
 		if hasattr(self, "taxes"):
+			self.flags.print_taxes_with_zero_amount = cint(frappe.db.get_single_value("Print Settings",
+				 "print_taxes_with_zero_amount"))
 			self.print_templates = {
 				"taxes": "templates/print_formats/includes/taxes.html"
 			}
@@ -83,10 +85,12 @@ class BuyingController(StockController):
 
 	def set_landed_cost_voucher_amount(self):
 		for d in self.get("items"):
-			lc_voucher_amount = frappe.db.sql("""select sum(applicable_charges)
+			lc_voucher_data = frappe.db.sql("""select sum(applicable_charges), cost_center
 				from `tabLanded Cost Item`
 				where docstatus = 1 and purchase_receipt_item = %s""", d.name)
-			d.landed_cost_voucher_amount = lc_voucher_amount[0][0] if lc_voucher_amount else 0.0
+			d.landed_cost_voucher_amount = lc_voucher_data[0][0] if lc_voucher_data else 0.0
+			if not d.cost_center and lc_voucher_data and lc_voucher_data[0][1]:
+				d.db_set('cost_center', lc_voucher_data[0][1])
 
 	def set_total_in_words(self):
 		from frappe.utils import money_in_words
