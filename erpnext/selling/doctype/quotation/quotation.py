@@ -32,7 +32,7 @@ class Quotation(SellingController):
 		self.validate_valid_till()
 		if self.items:
 			self.with_items = 1
-
+			
 	def validate_valid_till(self):
 		if self.valid_till and self.valid_till < self.transaction_date:
 			frappe.throw(_("Valid till date cannot be before transaction date"))
@@ -79,15 +79,10 @@ class Quotation(SellingController):
 		else:
 			frappe.throw(_("Cannot set as Lost as Sales Order is made."))
 
-	def check_item_table(self):
-		if not self.get('items'):
-			frappe.throw(_("Please enter item details"))
-
 	def on_submit(self):
-		self.check_item_table()
-
 		# Check for Approving Authority
-		frappe.get_doc('Authorization Control').validate_approving_authority(self.doctype, self.company, self.base_grand_total, self)
+		frappe.get_doc('Authorization Control').validate_approving_authority(self.doctype,
+			self.company, self.base_grand_total, self)
 
 		#update enquiry status
 		self.update_opportunity()
@@ -107,6 +102,9 @@ class Quotation(SellingController):
 			lst1.append(d.total)
 			print_lst.append(lst1)
 		return print_lst
+
+	def on_recurring(self, reference_doc, subscription_doc):
+		self.valid_till = None
 
 def get_list_context(context=None):
 	from erpnext.controllers.website_list_for_contact import get_list_context
