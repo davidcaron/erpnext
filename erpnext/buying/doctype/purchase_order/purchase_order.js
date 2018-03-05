@@ -12,6 +12,9 @@ frappe.ui.form.on("Purchase Order", {
 			'Purchase Invoice': 'Invoice',
 			'Stock Entry': 'Material to Supplier'
 		}
+
+		frm.set_indicator_formatter('item_code',
+			function(doc) { return (doc.qty<=doc.received_qty) ? "green" : "orange" })
 	},
 
 	onload: function(frm) {
@@ -21,22 +24,14 @@ frappe.ui.form.on("Purchase Order", {
 			return erpnext.queries.warehouse(frm.doc);
 		});
 
-		frm.set_indicator_formatter('item_code',
-			function(doc) { return (doc.qty<=doc.received_qty) ? "green" : "orange" })
+		if (frm.doc.__onload) {
+			frm.toggle_display('get_last_purchase_rate',
+				frm.doc.__onload.disable_fetch_last_purchase_rate);
+		}
 	},
 });
 
 frappe.ui.form.on("Purchase Order Item", {
-	item_code: function(frm) {
-		frappe.call({
-			method: "get_last_purchase_rate",
-			doc: frm.doc,
-			callback: function(r, rt) {
-				frm.trigger('calculate_taxes_and_totals');
-			}
-		})
-	},
-
 	schedule_date: function(frm, cdt, cdn) {
 		var row = locals[cdt][cdn];
 		if (row.schedule_date) {
